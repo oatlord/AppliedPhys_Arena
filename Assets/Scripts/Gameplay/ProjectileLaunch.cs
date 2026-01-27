@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ProjectileLaunch : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class ProjectileLaunch : MonoBehaviour
     public float launchForceRiseSpeed = 20f;
     private float launchForce = 0f;
     private Rigidbody projectileRb;
+
+    private Vector2 mouseDelta;
+    private Vector3 mousePosition;
 
     void Awake()
     {
@@ -46,13 +50,24 @@ public class ProjectileLaunch : MonoBehaviour
 
     void Update()
     {
+        mouseDelta = inputActions.Player.Look.ReadValue<Vector2>();
+        // projectilePrefab.transform.rotation = new Vector3(0, mouseDelta.y, 0);
+        projectilePrefab.transform.Rotate(Vector3.up, mouseDelta.x * Time.deltaTime * 10f);
+
         if (inputActions.Player.HoldForce.IsPressed())
         {
             AddForce();
         } else if (inputActions.Player.HoldForce.WasReleasedThisFrame())
         {
-            projectileRb.AddForce(transform.forward * launchForce, ForceMode.Impulse);
+            projectileRb.AddRelativeForce(launchForce * transform.right, ForceMode.Impulse);
+            // launchForce = 0f; // Reset force after launch
             Debug.Log("Projectile Launched with Force: " + launchForce);
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(projectilePrefab.transform.position, projectilePrefab.transform.forward * 5f);
     }
 }
