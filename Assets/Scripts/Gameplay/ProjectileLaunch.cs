@@ -59,7 +59,7 @@ public class ProjectileLaunch : MonoBehaviour
             AddForce();
         } else if (inputActions.Player.HoldForce.WasReleasedThisFrame())
         {
-            projectileRb.AddRelativeForce(launchForce * transform.right, ForceMode.Impulse);
+            projectileRb.AddRelativeForce(launchForce * transform.forward, ForceMode.Impulse);
             // launchForce = 0f; // Reset force after launch
             Debug.Log("Projectile Launched with Force: " + launchForce);
         }
