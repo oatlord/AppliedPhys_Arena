@@ -2,34 +2,57 @@ using UnityEngine;
 
 public class ProjectileLaunch : MonoBehaviour
 {
+    private InputSystem_Actions inputActions;
+    public GameObject projectilePrefab;
+    public float launchForceRiseSpeed = 20f;
+    private float launchForce = 0f;
+    private Rigidbody projectileRb;
 
-    //* v (final velocity), u (initial velocity), a (acceleration), t (time)
-    // v = u + at
-
-    // Start is called before the first frame update
-
-    public float initialVelocity = 10f;
-    public float acceleration = 9.81f;
-    public float time = 2f;
-    private bool launched = false;
-
-    void FixedUpdate()
+    void Awake()
     {
-        // Only launch once. Keep the finalVelocity calculation exactly as it was
-        if (launched) return;
+        inputActions = new InputSystem_Actions();
+        inputActions.Player.Enable();
+    }
 
-        Rigidbody rb = GetComponent<Rigidbody>();
+    void OnEnable()
+    {
+        inputActions.Enable();
+    }
 
-        if (rb == null) return;
+    void OnDisable()
+    {
+        inputActions.Disable();
+    }
 
-        float finalVelocity = initialVelocity + (acceleration * time);
+    void Start()
+    {
+        projectileRb = projectilePrefab.GetComponent<Rigidbody>();
+    }
 
-        rb.useGravity = true;
+    // Click on ball and hold and drag to start calculating for force and direction of launch
+    void AddForce()
+    {
+        launchForce += Time.deltaTime * launchForceRiseSpeed; // Increase force over time while holding
+        launchForce = Mathf.Clamp(launchForce, 0f, 100f); // Clamp to max force
+        Debug.Log("Current Launch Force: " + launchForce);
+    }
 
-        Vector3 impulse = transform.forward.normalized * finalVelocity * rb.mass;
+    void SubtractForce()
+    {
+        launchForce -= Time.deltaTime * launchForceRiseSpeed; // Decrease force over time while holding
+        launchForce = Mathf.Clamp(launchForce, 0f, 100f); // Clamp to max force
+        Debug.Log("Current Launch Force: " + launchForce);
+    }
 
-        rb.AddForce(impulse, ForceMode.Impulse);
-
-        launched = true;
+    void Update()
+    {
+        if (inputActions.Player.HoldForce.IsPressed())
+        {
+            AddForce();
+        } else if (inputActions.Player.HoldForce.WasReleasedThisFrame())
+        {
+            projectileRb.AddForce(transform.forward * launchForce, ForceMode.Impulse);
+            Debug.Log("Projectile Launched with Force: " + launchForce);
+        }
     }
 }
