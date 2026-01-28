@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerRespawnBehavior : MonoBehaviour
 {
     public int lives = 3;
     public float respawnDelay = 0.5f;
+    public TMP_Text livesText;
     private GameObject cueBall;
     private Coroutine respawnCueballCoroutine;
     // Start is called before the first frame update
     void Start()
     {
         cueBall = GameObject.FindGameObjectWithTag("CueBall");
+        if (livesText != null)
+        {
+            livesText.text = "Lives: " + lives;
+        }
     }
 
     // Update is called once per frame
@@ -29,9 +36,13 @@ public class PlayerRespawnBehavior : MonoBehaviour
 
     void CueballHit()
     {
-        if (lives > 0)
+        if (lives > 1)
         {
             lives--;
+            if (livesText != null)
+            {
+                livesText.text = "Lives: " + lives.ToString();
+            }
             Debug.Log("Lives remaining: " + lives);
 
             if (respawnCueballCoroutine == null)
@@ -47,6 +58,7 @@ public class PlayerRespawnBehavior : MonoBehaviour
         else
         {
             Debug.Log("Game Over!");
+            SceneManager.LoadScene("GameOver");
         }
     }
 

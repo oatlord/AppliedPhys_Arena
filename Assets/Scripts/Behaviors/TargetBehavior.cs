@@ -21,7 +21,11 @@ public class TargetBehavior : MonoBehaviour
         if (collision.gameObject.CompareTag("CueBall"))
         {
             Debug.Log("Target hit by CueBall!");
-            SendMessageUpwards("AddScore");
+            ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
+            if (scoreManager != null)
+            {
+                scoreManager.AddScore();
+            }
             Destroy(this.gameObject);
         }
     }

@@ -1,12 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class ProjectileLaunch : MonoBehaviour
 {
     private InputSystem_Actions inputActions;
     public GameObject projectilePrefab;
     public float launchForceRiseSpeed = 20f;
+    public TMP_Text forceText;
 
     private float launchForce = 0f;
     private Rigidbody projectileRb;
@@ -41,14 +43,20 @@ public class ProjectileLaunch : MonoBehaviour
     {
         launchForce += Time.deltaTime * launchForceRiseSpeed; // Increase force over time while holding
         launchForce = Mathf.Clamp(launchForce, 0f, 100f); // Clamp to max force
-        Debug.Log("Current Launch Force: " + launchForce);
+        if (forceText != null)
+        {
+            forceText.text = "Launch Force: " + launchForce.ToString("F1");
+        }
     }
 
     void SubtractForce()
     {
         launchForce -= Time.deltaTime * launchForceRiseSpeed; // Decrease force over time while holding
         launchForce = Mathf.Clamp(launchForce, 0f, 100f); // Clamp to max force
-        Debug.Log("Current Launch Force: " + launchForce);
+        if (forceText != null)
+        {
+            forceText.text = "Launch Force: " + launchForce.ToString("F1");
+        }
     }
 
     void Update()
@@ -67,7 +75,6 @@ public class ProjectileLaunch : MonoBehaviour
         } else if (inputActions.Player.HoldForce.WasReleasedThisFrame() && !launchPerformed)
         {
             projectileRb.AddRelativeForce(launchForce * transform.forward, ForceMode.Impulse);
-            Debug.Log("Projectile Launched with Force: " + launchForce);
             launchPerformed = true;
         }
 
@@ -116,6 +123,10 @@ public class ProjectileLaunch : MonoBehaviour
         projectileRb.transform.rotation = Quaternion.Euler(0f,0f,0f);
         projectileRb.velocity = Vector3.zero;
         projectileRb.angularVelocity = Vector3.zero;
+        if (forceText != null)
+        {
+            forceText.text = "Launch Force: 0.0";
+        }
         Debug.Log("Ball Launch Reset");
 
         if (inputActions.Player.enabled == false)

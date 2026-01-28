@@ -8,6 +8,11 @@ public class StartMenuController : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
+    public void OnMainClick()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public void OnExitClick()
     {
 #if UNITY_EDITOR
