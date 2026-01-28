@@ -731,6 +731,7 @@ GameObject:
   m_Component:
   - component: {fileID: 157879586}
   - component: {fileID: 157879585}
+  - component: {fileID: 157879587}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -761,12 +762,27 @@ Transform:
   m_GameObject: {fileID: 157879584}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.9249225, y: -1.8607254, z: -5.5247483}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1527995911}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &157879587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157879584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631ce62f9f1513d4a9a6ea45800458a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lives: 3
+  respawnDelay: 0.05
 --- !u!1 &200573347
 GameObject:
   m_ObjectHideFlags: 0
@@ -3273,6 +3289,7 @@ GameObject:
   - component: {fileID: 1527995909}
   - component: {fileID: 1527995908}
   - component: {fileID: 1527995912}
+  - component: {fileID: 1527995913}
   m_Layer: 0
   m_Name: CueBall
   m_TagString: CueBall
@@ -3359,12 +3376,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1527995907}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.54, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.53999996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 157879586}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1527995912
 Rigidbody:
@@ -3393,6 +3410,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!114 &1527995913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527995907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e000df1aae2db34186058f928cb470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1738006512
 GameObject:
   m_ObjectHideFlags: 0
@@ -4350,7 +4379,6 @@ SceneRoots:
   - {fileID: 743149}
   - {fileID: 832575519}
   - {fileID: 1761632182}
-  - {fileID: 1527995911}
   - {fileID: 1341795564}
   - {fileID: 1828244923}
   - {fileID: 157879586}
