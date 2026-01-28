@@ -24,12 +24,12 @@ public class ProjectileLaunch : MonoBehaviour
 
     void OnEnable()
     {
-        inputActions.Enable();
+        inputActions.Player.Enable();
     }
 
     void OnDisable()
     {
-        inputActions.Disable();
+        inputActions.Player.Disable();
     }
 
     void Start()
@@ -80,8 +80,15 @@ public class ProjectileLaunch : MonoBehaviour
             ballMoving = false;
         }
 
+        // Debug.Log("Input Actions Player Enabled: " + inputActions.Player.enabled);
+
         if (launchPerformed && ballMoving)
         {
+            if (inputActions.Player.enabled)
+            {
+                inputActions.Player.Disable();
+            }
+
             if (postBallMoveCoroutine == null) 
             {
                 postBallMoveCoroutine = StartCoroutine(PostBallMoveSequence());
@@ -110,6 +117,11 @@ public class ProjectileLaunch : MonoBehaviour
         projectileRb.velocity = Vector3.zero;
         projectileRb.angularVelocity = Vector3.zero;
         Debug.Log("Ball Launch Reset");
+
+        if (inputActions.Player.enabled == false)
+        {
+            inputActions.Player.Enable();
+        }
     }
 
     public bool GetBallState()
