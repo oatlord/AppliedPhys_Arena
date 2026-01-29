@@ -12,6 +12,7 @@ public class ProjectileLaunch : MonoBehaviour
 
     private float launchForce = 0f;
     private Rigidbody projectileRb;
+    private LineRenderer lineRenderer;
     private Vector2 mouseDelta;
 
     private bool ballMoving = false;
@@ -37,6 +38,7 @@ public class ProjectileLaunch : MonoBehaviour
     void Start()
     {
         projectileRb = projectilePrefab.GetComponent<Rigidbody>();
+        lineRenderer = projectilePrefab.GetComponent<LineRenderer>();
     }
 
     void AddForce()
@@ -68,6 +70,13 @@ public class ProjectileLaunch : MonoBehaviour
 
         mouseDelta = inputActions.Player.Look.ReadValue<Vector2>();
         projectilePrefab.transform.Rotate(Vector3.up, mouseDelta.x * Time.deltaTime * 10f);
+
+        if (lineRenderer != null)
+        {
+            lineRenderer.SetPosition(0, projectilePrefab.transform.position);
+            lineRenderer.SetPosition(1, projectilePrefab.transform.position + projectilePrefab.transform.forward * 5f);
+            lineRenderer.enabled = !(launchPerformed && ballMoving);
+        }
 
         if (inputActions.Player.HoldForce.IsPressed() && !launchPerformed)
         {
@@ -143,11 +152,5 @@ public class ProjectileLaunch : MonoBehaviour
     public bool GetLaunchState()
     {
         return launchPerformed;
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(projectilePrefab.transform.position, projectilePrefab.transform.forward * 5f);
     }
 }
